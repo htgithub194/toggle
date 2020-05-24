@@ -3,24 +3,28 @@ import GroupDevice from './GroupDevice';
 import ModalCreateGroup from './ModalCreateGroup'
 
 const Group = (props) => {
-  let { data, model } = props
-
-  const _onClick = () => {
-    document.group_onClick(data.i);
-  }
+  let { data, model } = props;
 
   const _onClick_delete = () => {
     document.group_delete_by_index(data.i);
   }
-  let className = "group-container ";
-  className += data.d.stt ? "group-on" : "group-off";
+
+  const _onClick_tog_all = (isOn) => {
+    document.group_onClick(data.i, isOn);
+  }
+
   return (
-    <div className={className} onClick={_onClick}>
-      <h1>{data.d.name}</h1>
-      <div>
-        {data.d.devs.map((d, i) => <GroupDevice data={{ d, i }} model={model} />)}
-        {/* <img src={data.d.stt ? "./flash_on-24px.svg" : "flash_off-24px.svg"} /> */}
+    <div className="container group-container">
+      <h1 className="row group-name text-align-center">{data.d.name}</h1>
+      <div className="row">
+        <div className="mouse col-6 text-align-center" onClick={() => _onClick_tog_all(true)}><p className="my-0">Bật tất cả</p></div>
+        <hr/>
+        <div className="mouse col-6 text-align-center" onClick={() => _onClick_tog_all(false)}><p>Tắt tất cả</p></div>
       </div>
+      <div className="row">
+        {data.d.devs.map((d, i) => <GroupDevice data={{ d, i }} model={model} />)}
+      </div>
+      {/* <img src={data.d.stt ? "./flash_on-24px.svg" : "flash_off-24px.svg"} /> */}
       <div onClick={_onClick_delete}>Delete</div>
     </div>
   );

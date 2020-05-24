@@ -22,6 +22,17 @@ const SettingDevName = (props) => {
   );
 }
 
+// const WifiItem = (props) => {
+//   let { data } = props;
+
+//   return (
+//     <div className="wifi-container" onClick={props.onClick}>
+//       <p className="wifi-ssid">{data.ssid}</p>
+//       <p className="wifi-strength">{data.signal}</p>
+//     </div>
+//   );
+// }
+
 const SettingWifi = (props) => {
 
   const [wifiDisable, setWifiDisable] = useState(true);
@@ -34,7 +45,7 @@ const SettingWifi = (props) => {
 
   const _onChange_Check = (e) => {
     let ssid = e.target.textContent;
-    e.target.parentElement.querySelector("input.ssid").value = ssid;
+    e.currentTarget.parentElement.querySelector("input.ssid").value = ssid;
   }
 
   const _onChangeWifi = (e) => {
@@ -49,14 +60,27 @@ const SettingWifi = (props) => {
     }
   }
 
-  let wifis = document.Model.wifis;
+  const _onClick_scanWifi = () => {
+    if (undefined !== document.Android) {
+      let id = "wif";
+      let cmd = { id };
+      document.Android.eventFromHMI(JSON.stringify(cmd));
+    }
+  }
+
+  let wifis = props.model.wifis;
 
   return (
     <div>
-      {wifis.map(d => <p onClick={_onChange_Check}>{d}</p>)}
+      {wifis.map(d => <div class="wifi-container" onClick={_onChange_Check}>
+        <div className="wifi-ssid">{d.ssid}</div>
+        <div className="wifi-signal">{d.signal}</div>
+        </div>
+      )}
       <input type="text" className="form-control ssid" placeholder="Nhập tên wifi" onChange={_onChangeWifi} />
       <input type="text" className="form-control pw" placeholder="Nhập mật khẩu wifi" onChange={_onChangeWifi} />
       <Button variant="primary" onClick={_onClick_setWifi} disabled={wifiDisable}>Cài đặt</Button>
+      <Button variant="primary" onClick={_onClick_scanWifi} >Scan wifi</Button>
     </div>
   );
 }
@@ -73,7 +97,7 @@ class AppBodySetting extends React.Component {
     return (
       <div className="AppBodySetting">
         <div className="Setting_Wifi">
-          <SettingWifi />
+          <SettingWifi model={model} />
         </div>
 
         <div className="Setting_PW"></div>

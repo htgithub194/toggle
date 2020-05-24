@@ -50,6 +50,10 @@ div.device-square {
   vertical-align: middle;
 }
 
+.mouse:active {
+  background-color: rgb(45, 45, 63);
+}
+
 .device-square-img img {
   width: 15%;
   display: block;
@@ -66,13 +70,15 @@ div.device-square {
 
 /*    START DEVICE STATUS  */
 .device-on {
-  border-color: cyan;
   color: cyan;
 }
 
 div.device-off {
-  border-color: gray;
   color: gray;
+}
+
+div.device-idle {
+  color: goldenrod;
 }
 /*    END DEVICE STATUS  */
 
@@ -82,10 +88,10 @@ div.device-off {
   border-width: thin;
   border-style: solid;
   overflow: hidden;
-  display: inline-block;
   padding-left: 5px;
   padding-right: 5px;
   margin-left: 5px;
+  text-align: center;
 }
 
 .group-container {
@@ -95,17 +101,24 @@ div.device-off {
   padding: 5px;
   margin: 5px;
   border-radius: 5px;
+  color: gold;
 }
 
-.group-on {
+.group-name {
+  color: gold;
+}
+
+/* .group-on {
   color: cyan;
-  border-color: cyan;
+}
+
+.group-idle {
+  color: goldenrod;
 }
 
 .group-off {
   color: gray;
-  border-color: gray;
-}
+} */
 
 .group-container div {
   justify-content: center;
@@ -127,4 +140,31 @@ div.setting-dev-name {
 
 p {
   color: gainsboro;
+}
+
+h1 {
+  color: gainsboro;
+}
+
+.wifi-container {
+  color: gainsboro;
+}
+
+.wifi-signal {
+  display: inline-block;
+  position: absolute;
+  right: 0px;
+}
+
+.wifi-ssid {
+  display: inline-block;
+}
+
+.text-align-center {
+  text-align: center;
+  justify-content: center;
+} 
+
+hr {
+  border-color: 10px solid red;
 }

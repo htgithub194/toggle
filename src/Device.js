@@ -11,14 +11,22 @@ const Device = (props) => {
     let name = d.name !== "" ? d.name : d.realName;
 
     let style = "device-square-content ";
-    style += d.isSttOn ? "device-on" : "device-off";
+    if(d.isSttOn === null) {
+        style += "device-idle";
+    }
+    if(d.isSttOn === true) {
+        style += "device-on";
+    }
+    if(d.isSttOn === false) {
+        style += "device-off";
+    }
 
     return (
         <div onClick={_onClick} className="col-4 p-0">
             <div className="device-square">
                 <div className={style}>
                     <div>
-                        <span>{name}</span>
+                        <span className="mouse">{name}</span>
                     </div>
                 </div>
                 <div className="device-square-img">

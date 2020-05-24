@@ -3,6 +3,8 @@ import AppBody from "./AppBody"
 import AppNavBar from './AppNavBar';
 import AppBodyGroup from './AppBodyGroup';
 import AppBodySetting from './AppBodySetting';
+import './ripple.js'
+
 
 class App extends React.Component {
 
@@ -16,17 +18,18 @@ class App extends React.Component {
     document.setWifiInfo = this.setWifiInfo;
     document.group_onClick = this.group_onClick;
     document.group_delete_by_index = this.group_delete_by_index;
+    document.setWifiList = this.setWifiList
 
     let dev1 = { isSttOn: false, realName: "1969264_1", name: "phòng bếp" };
     let dev2 = { isSttOn: true, realName: "1969264_2", name: "đèn hầm" };
     let dev3 = { isSttOn: false, realName: "1969264_3", name: "" };
-    let dev4 = { isSttOn: false, realName: "1969264_3", name: "" };
+    let dev4 = { isSttOn: null, realName: "1969264_4", name: "" };
 
-    // let devices = [dev1, dev2, dev3, dev4];
-    let devices = [];
+    let devices = [dev1, dev2, dev3, dev4];
+    // let devices = [];
 
-    let groups = 
-    // [];
+    let groups =
+      // [];
     [
       { name: "group1", stt: false, devs: [dev1, dev2, dev1, dev2,dev1, dev2,dev1, dev2] },
     ];
@@ -40,7 +43,7 @@ class App extends React.Component {
       group_onClick: this.group_onClick
     };
 
-    let wifis = ["wifi1", "wifi1", "wifi1"];
+    let wifis = [];
 
     document.Model = { devices, groups, funcs, navBar, wifis };
 
@@ -67,7 +70,7 @@ class App extends React.Component {
 
   setWifiInfo = (ssid, pw) => {
     if (undefined !== document.Android) {
-      let id = "swf";
+      let id = "stw";
       let cmd = { id, ssid, pw };
       document.Android.eventFromHMI(JSON.stringify(cmd));
     }
@@ -101,9 +104,17 @@ class App extends React.Component {
   }
 
   init = (groups, devices) => {
+    groups.forEach(g => {
+      g.stt = null;
+    });
+
     if (null !== groups) {
       this.Model.groups = groups;
     }
+
+    devices.forEach(d => {
+      d.isSttOn = null;
+    })
 
     this.setDeviceList(devices);
   }
@@ -159,19 +170,19 @@ class App extends React.Component {
     this.storeGroup2Android();
   }
 
-  group_onClick = (i) => {
+  group_onClick = (i, isOn) => {
     if (i >= this.Model.groups.length) {
       return;
     }
 
     let d = this.Model.groups[i];
-    d.stt = !d.stt;
+    d.stt = isOn;
     this.modelSetState()
 
     if (undefined === document.Android) {
       return;
     }
-    
+
     d.devs.forEach(e => {
       for (let j = 0; j < this.Model.devices.length; j++) {
         if (this.Model.devices[j].realName === e.realName) {
@@ -220,6 +231,22 @@ class App extends React.Component {
       id = "get";
       document.Android.eventFromHMI(JSON.stringify({ id }));
     }
+
+    // let w = ["Mèo Mướp's AirPort Express","-76","BAO-AN","-90","vnpt-Hai Thong","-85","TP-LINK_5424","-27","TANG2","-69"];
+    // this.setWifiList(w);
+  }
+
+  // FOR WIFI //
+  setWifiList = (d) => {
+    console.log(d);
+    let wifis = [];
+    for (let i = 0; i < d.length; i += 2) {
+      let ssid = d[i];
+      let signal = parseInt(d[i + 1]);
+      wifis[wifis.length] = { ssid, signal };
+    }
+    this.Model.wifis = wifis;
+    this.modelSetState();
   }
 
   render() {
