@@ -1,38 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 
-const SettingDevName = (props) => {
-
-  const { realName, name } = props.data;
-
-  const _onClick_SetDevName = (e) => {
-    let typeName = e.target.parentElement.querySelector("input").value;
-
-    document.setting_setDevName(realName, typeName);
-  }
-
-  return (
-    <div className="row setting-dev-name my-2">
-      <div className="col-4">{realName}</div>
-      <div className="col-6">
-        <input type="text" className="form-control" placeholder={name} />
-      </div>
-      <Button className="col-2" variant="primary" onClick={_onClick_SetDevName}>Đặt</Button>
-    </div>
-  );
-}
-
-// const WifiItem = (props) => {
-//   let { data } = props;
-
-//   return (
-//     <div className="wifi-container" onClick={props.onClick}>
-//       <p className="wifi-ssid">{data.ssid}</p>
-//       <p className="wifi-strength">{data.signal}</p>
-//     </div>
-//   );
-// }
-
 const SettingWifi = (props) => {
 
   const [wifiDisable, setWifiDisable] = useState(true);
@@ -87,10 +55,6 @@ const SettingWifi = (props) => {
 
 class AppBodySetting extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     let model = this.props.model;
     if (!this.props.display) return null;
@@ -99,11 +63,7 @@ class AppBodySetting extends React.Component {
         <div className="Setting_Wifi">
           <SettingWifi model={model} />
         </div>
-
         <div className="Setting_PW"></div>
-        <div className="Setting_devName container">
-          {model.devices.map((d, i) => <SettingDevName data={d} />)}
-        </div>
       </div>
     );
   }

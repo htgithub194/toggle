@@ -1,9 +1,8 @@
 import React from 'react';
-import AppBody from "./AppBody"
-import AppNavBar from './AppNavBar';
-import AppBodyGroup from './AppBodyGroup';
-import AppBodySetting from './AppBodySetting';
-import './ripple.js'
+import AppBody from "./layout/AppBody"
+import AppNavBar from './layout/AppNavBar';
+import AppBodyGroup from './layout/AppBodyGroup';
+import AppBodySetting from './layout/AppBodySetting';
 
 
 class App extends React.Component {
@@ -18,7 +17,10 @@ class App extends React.Component {
     document.setWifiInfo = this.setWifiInfo;
     document.group_onClick = this.group_onClick;
     document.group_delete_by_index = this.group_delete_by_index;
-    document.setWifiList = this.setWifiList
+    document.setWifiList = this.setWifiList;
+    document.group_onEditGroup = this.group_onEditGroup;
+    document.navBar_icon_click = this.navBar_icon_click;
+    document.device_onClick = this.device_onClick;
 
     let dev1 = { isSttOn: false, realName: "1969264_1", name: "phòng bếp" };
     let dev2 = { isSttOn: true, realName: "1969264_2", name: "đèn hầm" };
@@ -28,24 +30,17 @@ class App extends React.Component {
     let devices = [dev1, dev2, dev3, dev4];
     // let devices = [];
 
-    let groups =
+    let groups = 
       // [];
     [
-      { name: "group1", stt: false, devs: [dev1, dev2, dev1, dev2,dev1, dev2,dev1, dev2] },
+      { name: "group1", devs: [dev1, dev2, dev1, dev2,dev1, dev2,dev1, dev2] },
     ];
 
-    let navBar = 1;
-
-    let funcs =
-    {
-      device_onClick: this.device_onClick,
-      navBar_icon_click: this.navBar_icon_click,
-      group_onClick: this.group_onClick
-    };
+    let navBar = 0;
 
     let wifis = [];
 
-    document.Model = { devices, groups, funcs, navBar, wifis };
+    document.Model = { devices, groups, navBar, wifis };
 
     this.Model = document.Model;
 
@@ -204,6 +199,12 @@ class App extends React.Component {
     this.storeGroup2Android();
   }
 
+  group_onEditGroup = (grp_idx, name, devs) => {
+    this.Model.groups[grp_idx].name = name;
+    this.Model.groups[grp_idx].devs = devs;
+    this.modelSetState();
+  }
+
   storeGroup2Android = () => {
     if (undefined !== document.Android) {
       let id = "grp";
@@ -213,8 +214,8 @@ class App extends React.Component {
     }
   }
 
-  navBar_icon_click = (d) => {
-    this.Model.navBar = d.idx;
+  navBar_icon_click = (idx) => {
+    this.Model.navBar = idx;
     this.modelSetState()
   }
 
@@ -232,13 +233,14 @@ class App extends React.Component {
       document.Android.eventFromHMI(JSON.stringify({ id }));
     }
 
+    document.timerLongPress = null;
+
     // let w = ["Mèo Mướp's AirPort Express","-76","BAO-AN","-90","vnpt-Hai Thong","-85","TP-LINK_5424","-27","TANG2","-69"];
     // this.setWifiList(w);
   }
 
   // FOR WIFI //
   setWifiList = (d) => {
-    console.log(d);
     let wifis = [];
     for (let i = 0; i < d.length; i += 2) {
       let ssid = d[i];

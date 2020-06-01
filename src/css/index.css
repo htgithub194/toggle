@@ -78,7 +78,8 @@ div.device-off {
 }
 
 div.device-idle {
-  color: goldenrod;
+  color: gray;
+  opacity: 0.3;
 }
 /*    END DEVICE STATUS  */
 
@@ -95,6 +96,7 @@ div.device-idle {
 }
 
 .group-container {
+  position: relative;
   border-width: thin;
   border-style: solid;
   overflow: hidden;
@@ -122,6 +124,22 @@ div.device-idle {
 
 .group-container div {
   justify-content: center;
+}
+
+.group-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.group-add {
+  fill: gray;
+  display: block;
+  margin: auto;
+}
+
+.group-add:active {
+  fill: aqua;
 }
 /*    END GROUP DEVICE    */
 
@@ -168,3 +186,27 @@ h1 {
 hr {
   border-color: 10px solid red;
 }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+/*  SVG */
+svg {
+  fill: gray;
+}
+
+svg:active {
+  fill: aqua;
+}
+
+svg.active {
+  fill: aqua;
+}
+/*  SVG */

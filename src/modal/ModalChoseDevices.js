@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import CheckBoxDevice from './CheckBoxDevice'
+import CheckBoxDevice from '../widget/CheckBoxDevice'
 
 function ModalChoseDevices() {
   const [show, setShow] = useState(false);
